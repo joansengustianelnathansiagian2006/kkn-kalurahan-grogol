@@ -1,6 +1,29 @@
-// src/app/api/auth/[...nextauth]/route.ts
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import { db } from "@/lib/db";
+
+// Extension tipe TypeScript untuk NextAuth
+declare module "next-auth" {
+  interface User {
+    role?: string;
+  }
+  interface Session {
+    user: {
+      id?: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      role?: string;
+    };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    role?: string;
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,23 +34,53 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Gantilah logika ini jika nantinya mengambil data dari Database (Prisma/MySQL)
-        if (
-          credentials?.username === "admin" &&
-          credentials?.password === "admin123"
-        ) {
-          return {
-            id: "1",
-            name: "Admin Kalurahan Grogol",
-            email: "admin@grogol.desa.id",
-          };
+        if (!credentials?.username || !credentials?.password) {
+          return null;
         }
-        return null;
+
+        const admin = await db.admin.findFirst({
+          where: {
+            username: credentials.username,
+          },
+        });
+
+        if (!admin || !admin.password) {
+          return null;
+        }
+
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          admin.password
+        );
+
+        if (!isPasswordValid) {
+          return null;
+        }
+
+        return {
+          id: admin.id,
+          name: admin.nama || admin.username,
+          role: admin.role,
+        };
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.role = token.role as string;
+      }
+      return session;
+    },
+  },
   pages: {
-    signIn: "/admin/login", // Custom page login Anda
+    signIn: "/admin/login",
   },
   session: {
     strategy: "jwt",
