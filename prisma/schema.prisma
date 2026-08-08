@@ -9,39 +9,43 @@ datasource db {
 }
 
 model ProgramKerja {
-  id                 String   @id @default(cuid())
-  namaProgram        String   @map("nama_program")
-  kategori           String
-  tanggalPelaksanaan DateTime @map("tanggal_pelaksanaan")
-  lokasi             String
+  id                 String    @id @default(cuid())
+  nama               String?   @map("nama")
+  namaProgram        String?   @map("nama_program")
+  slug               String?   @map("slug")
+  kategori           String?   @map("kategori")
+  tanggal            DateTime? @map("tanggal")
+  tanggalPelaksanaan DateTime? @map("tanggal_pelaksanaan")
+  lokasi             String?   @map("lokasi")
 
-  latarBelakang      String   @db.Text @map("latar_belakang")
-  tujuan             String   @db.Text
-  pelaksanaan        String   @db.Text
-  hasil              String   @db.Text
-  manfaat            String   @db.Text
-  
-  fotoCover          String   @map("cover_url")
-  dokumentasiFoto    String[] @map("dokumentasi_foto")
-  dokumentasiVideo   String?  @map("dokumentasi_video")
-  fileDigital        String?  @map("file_url") // <-- DIPERBAIKI (sebelumnya file_digital)
-  
-  createdAt          DateTime @default(now()) @map("created_at")
-  updatedAt          DateTime @updatedAt @map("updated_at")
+  latarBelakang      String?   @db.Text @map("latar_belakang")
+  tujuan             String?   @db.Text @map("tujuan")
+  pelaksanaan        String?   @db.Text @map("pelaksanaan")
+  hasil              String?   @db.Text @map("hasil")
+  manfaat            String?   @db.Text @map("manfaat")
+
+  fotoCover          String?   @map("cover_url")
+  dokumentasiFoto    String[]  @default([]) @map("dokumentasi_foto")
+  dokumentasiVideo   String?   @map("dokumentasi_video")
+  fileDigital        String?   @map("file_url")
+
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
 
   @@map("proker")
 }
 
 model Umkm {
   id            String   @id @default(cuid())
-  logo          String?
-  namaUmkm      String   @map("nama_umkm")
-  deskripsi     String   @db.Text
-  produk        String   @db.Text
-  alamat        String
+  logo          String?  @map("logo")
+  nama          String?  @map("nama")
+  namaUmkm      String?  @map("nama_umkm")
+  deskripsi     String?  @db.Text @map("deskripsi")
+  produk        String?  @db.Text @map("produk")
+  alamat        String?  @map("alamat")
   lokasiMap     String?  @map("lokasi_map")
-  nomorWhatsApp String   @map("nomor_whatsapp")
-  
+  nomorWhatsApp String?  @map("nomor_whatsapp")
+
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
@@ -50,11 +54,12 @@ model Umkm {
 
 model PotensiDesa {
   id          String   @id @default(cuid())
-  kategori    String   
-  namaPotensi String   @map("nama_potensi")
-  deskripsi   String   @db.Text
-  fotoCover   String   @map("cover_url")
-  
+  kategori    String?  @map("kategori")
+  nama        String?  @map("nama")
+  namaPotensi String?  @map("nama_potensi")
+  deskripsi   String?  @db.Text @map("deskripsi")
+  fotoCover   String?  @map("cover_url")
+
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
@@ -63,12 +68,12 @@ model PotensiDesa {
 
 model Galeri {
   id          String   @id @default(cuid())
-  tipe        String   // "Foto" | "Video"
-  url         String?
-  judul       String?
-  kategori    String?  
-  description String?  @db.Text // <-- DITAMBAHKAN
-  
+  tipe        String?  @map("tipe")
+  url         String?  @map("url")
+  judul       String?  @map("judul")
+  kategori    String?  @map("kategori")
+  description String?  @db.Text @map("description")
+
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
@@ -77,13 +82,13 @@ model Galeri {
 
 model Artikel {
   id        String   @id @default(cuid())
-  judul     String
-  slug      String   @unique
-  konten    String   @db.Text
-  fotoCover String   @map("cover_url")
-  penulis   String
-  tanggal   DateTime @default(now())
-  
+  judul     String?  @map("judul")
+  slug      String?  @unique @map("slug")
+  konten    String?  @db.Text @map("konten")
+  fotoCover String?  @map("cover_url")
+  penulis   String?  @map("penulis")
+  tanggal   DateTime @default(now()) @map("tanggal")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -92,10 +97,10 @@ model Artikel {
 
 model DownloadCenter {
   id        String   @id @default(cuid())
-  judul     String
-  kategori  String   
-  fileUrl   String   @map("file_url")
-  
+  judul     String?  @map("judul")
+  kategori  String?  @map("kategori")
+  fileUrl   String?  @map("file_url")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -104,11 +109,11 @@ model DownloadCenter {
 
 model Kontak {
   id            String   @id @default(cuid())
-  alamat        String
-  googleMaps    String   @map("google_maps")
-  email         String
-  nomorWhatsApp String   @map("nomor_whatsapp")
-  
+  alamat        String?  @map("alamat")
+  googleMaps    String?  @map("google_maps")
+  email         String?  @map("email")
+  nomorWhatsApp String?  @map("nomor_whatsapp")
+
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
@@ -117,11 +122,11 @@ model Kontak {
 
 model Admin {
   id        String   @id @default(cuid())
-  username  String   @unique
-  password  String
-  nama      String
-  role      String   @default("ADMIN")
-  
+  username  String   @unique @map("username")
+  password  String   @map("password")
+  nama      String?  @map("nama")
+  role      String   @default("ADMIN") @map("role")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
