@@ -10,6 +10,7 @@ import { db } from '@/lib/db';
 
 // Mencegah cache agar data Supabase selalu diperbarui
 export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   // Tambahkan type annotation : any[] agar TypeScript tidak mengeluh
