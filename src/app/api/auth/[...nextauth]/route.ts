@@ -33,30 +33,45 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("=== TRYING TO LOGIN ===");
+        console.log("Username input:", credentials?.username);
+
         if (!credentials?.username || !credentials?.password) {
+          console.log("LOGIN FAIL: Input username/password kosong");
           return null;
         }
 
         try {
-          // Menggunakan findUnique karena username bersifat @unique
+          // Cari admin
           const admin = await db.admin.findUnique({
             where: {
               username: credentials.username,
             },
           });
 
+          console.log("Admin found in DB?:", !!admin);
+
           if (!admin || !admin.password) {
+            console.log("LOGIN FAIL: Username tidak ditemukan di database");
             return null;
           }
 
+          console.log("DB HASH:", admin.password);
+
+          // Cek bcrypt
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
             admin.password
           );
 
+          console.log("Is Password Valid?:", isPasswordValid);
+
           if (!isPasswordValid) {
+            console.log("LOGIN FAIL: Password bcrypt compare menghasilkan false");
             return null;
           }
+
+          console.log("LOGIN SUCCESS for user:", admin.username);
 
           return {
             id: admin.id,
@@ -64,7 +79,7 @@ export const authOptions: NextAuthOptions = {
             role: admin.role,
           };
         } catch (error) {
-          console.error("Auth error:", error);
+          console.error("LOGIN ERROR (DATABASE / PRISMA):", error);
           return null;
         }
       },
