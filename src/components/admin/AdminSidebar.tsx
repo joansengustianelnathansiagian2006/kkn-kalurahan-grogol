@@ -55,7 +55,7 @@ export default function AdminSidebar() {
         })}
       </nav>
 
-      {/* Tombol Logout (Di bagian paling bawah) */}
+      {/* Tombol Logout */}
       <div className="pt-4 border-t border-slate-800 mt-auto">
         <button
           onClick={handleLogout}

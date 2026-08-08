@@ -3,7 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 
-// Extension tipe TypeScript untuk NextAuth
 declare module "next-auth" {
   interface User {
     role?: string;
@@ -38,30 +37,36 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const admin = await db.admin.findFirst({
-          where: {
-            username: credentials.username,
-          },
-        });
+        try {
+          // Menggunakan findUnique karena username bersifat @unique
+          const admin = await db.admin.findUnique({
+            where: {
+              username: credentials.username,
+            },
+          });
 
-        if (!admin || !admin.password) {
+          if (!admin || !admin.password) {
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            admin.password
+          );
+
+          if (!isPasswordValid) {
+            return null;
+          }
+
+          return {
+            id: admin.id,
+            name: admin.nama || admin.username,
+            role: admin.role,
+          };
+        } catch (error) {
+          console.error("Auth error:", error);
           return null;
         }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          admin.password
-        );
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        return {
-          id: admin.id,
-          name: admin.nama || admin.username,
-          role: admin.role,
-        };
       },
     }),
   ],
