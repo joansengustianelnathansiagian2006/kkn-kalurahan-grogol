@@ -28,20 +28,24 @@ model ProgramKerja {
   
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+
+  @@map("proker")
 }
 
 model Umkm {
-  id             String   @id @default(cuid())
-  logo           String
-  namaUmkm       String
-  deskripsi      String   @db.Text
-  produk         String   @db.Text
-  alamat         String
-  lokasiMap      String
+  id            String   @id @default(cuid())
+  logo          String
+  namaUmkm      String
+  deskripsi     String   @db.Text
+  produk        String   @db.Text
+  alamat        String
+  lokasiMap     String
   nomorWhatsApp String
   
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("umkm")
 }
 
 model PotensiDesa {
@@ -53,6 +57,8 @@ model PotensiDesa {
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("potensidesa")
 }
 
 model Galeri {
@@ -64,6 +70,8 @@ model Galeri {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("galeri")
 }
 
 model Artikel {
@@ -77,6 +85,8 @@ model Artikel {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("artikel")
 }
 
 model DownloadCenter {
@@ -87,6 +97,8 @@ model DownloadCenter {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("downloadcenter")
 }
 
 model Kontak {
@@ -98,6 +110,8 @@ model Kontak {
   
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@map("kontak")
 }
 
 model Admin {
@@ -109,4 +123,6 @@ model Admin {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("admin")
 }
