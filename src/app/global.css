@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Utility Helper khusus buatan Stitch */
+@layer utilities {
+  .max-w-container-max { max-width: 1280px; }
+  .px-margin-desktop { padding-left: 2rem; padding-right: 2rem; }
+  .py-section-gap-sm { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+
+  .bg-surface { background-color: #ffffff; }
+  .bg-surface-container { background-color: #f1f5f9; }
+  .bg-surface-dark { background-color: #0f172a; }
+  .bg-background-dark { background-color: #020617; }
+  .bg-primary { background-color: #166534; }
+  .bg-primary-container { background-color: #dcfce7; }
+  .bg-tertiary-container { background-color: #e0f2fe; }
+  .bg-category-econ { background-color: #0d9488; }
+  .bg-category-soc { background-color: #2563eb; }
+
+  .text-primary { color: #166534; }
+  .text-on-primary { color: #ffffff; }
+  .text-on-primary-container { color: #14532d; }
+  .text-on-tertiary-container { color: #0369a1; }
+  .text-on-surface { color: #0f172a; }
+  .text-on-surface-variant { color: #475569; }
+  .text-text-muted { color: #64748b; }
+  .text-surface { color: #ffffff; }
+  .text-surface-variant { color: #f1f5f9; }
+
+  .font-display-xl { font-size: 3rem; font-weight: 800; }
+  .font-display-lg { font-size: 2.25rem; font-weight: 700; }
+  .font-headline-md { font-size: 1.5rem; font-weight: 700; }
+  .font-headline-sm { font-size: 1.125rem; font-weight: 600; }
+  .font-body-lg { font-size: 1.125rem; font-weight: 400; }
+  .font-body-base { font-size: 1rem; font-weight: 400; }
+  .font-body-bold { font-size: 1rem; font-weight: 600; }
+  .font-label-caps { font-size: 0.75rem; font-weight: 700; }
+}
+
+/* Aturan CSS Wajib Lenis Smooth Scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}

@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ProgramKerja {
+  id                 String   @id @default(cuid())
+  fotoCover          String
+  namaProgram        String
+  kategori           String
+  tanggalPelaksanaan DateTime
+  lokasi             String
+
+  latarBelakang      String   @db.Text
+  tujuan             String   @db.Text
+  pelaksanaan        String   @db.Text
+  hasil              String   @db.Text
+  manfaat            String   @db.Text
+  
+  dokumentasiFoto    String[] 
+  dokumentasiVideo   String?
+  fileDigital        String?
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Umkm {
+  id             String   @id @default(cuid())
+  logo           String
+  namaUmkm       String
+  deskripsi      String   @db.Text
+  produk         String   @db.Text
+  alamat         String
+  lokasiMap      String
+  nomorWhatsApp  String
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model PotensiDesa {
+  id          String   @id @default(cuid())
+  kategori    String   
+  namaPotensi String
+  deskripsi   String   @db.Text
+  fotoCover   String
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Galeri {
+  id        String   @id @default(cuid())
+  tipe      String   // "Foto" | "Video"
+  url       String
+  judul     String?
+  kategori  String?  
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Artikel {
+  id        String   @id @default(cuid())
+  judul     String
+  slug      String   @unique
+  konten    String   @db.Text
+  fotoCover String
+  penulis   String
+  tanggal   DateTime @default(now())
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DownloadCenter {
+  id        String   @id @default(cuid())
+  judul     String
+  kategori  String   
+  fileUrl   String
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Kontak {
+  id            String   @id @default(cuid())
+  alamat        String
+  googleMaps    String
+  email         String
+  nomorWhatsApp String
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  nama      String
+  role      String   @default("ADMIN")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
