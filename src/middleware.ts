@@ -1,24 +1,29 @@
-// src/middleware.ts
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
-    const isLoginPage = req.nextUrl.pathname === "/admin/login";
+    const { pathname } = req.nextUrl;
+    const isLoginPage = pathname === "/admin/login";
 
-    // Jika sudah login tapi coba buka /admin/login, alihkan ke dashboard
+    // 1. Jika sudah login dan mencoba buka /admin/login, alihkan ke dashboard
     if (isLoginPage && token) {
+      return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+    }
+
+    // 2. Jika mengakses /admin secara langsung dan sudah login, alihkan ke /admin/dashboard
+    if (pathname === "/admin" && token) {
       return NextResponse.redirect(new URL("/admin/dashboard", req.url));
     }
   },
   {
     callbacks: {
-      // Return true jika user memiliki token valid
       authorized: ({ token, req }) => {
         const isLoginPage = req.nextUrl.pathname === "/admin/login";
-        if (isLoginPage) return true; // Izinkan akses ke halaman login
-        return !!token; // Tolak akses /admin lainnya jika tidak ada token
+        // Izinkan halaman login tanpa token, rute /admin/* lainnya wajib punya token
+        if (isLoginPage) return true;
+        return !!token;
       },
     },
     pages: {
