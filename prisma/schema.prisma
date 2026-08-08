@@ -10,7 +10,6 @@ datasource db {
 
 model ProgramKerja {
   id                 String   @id @default(cuid())
-  fotoCover          String   @map("cover_url")
   namaProgram        String   @map("nama_program")
   kategori           String
   tanggalPelaksanaan DateTime @map("tanggal_pelaksanaan")
@@ -22,9 +21,10 @@ model ProgramKerja {
   hasil              String   @db.Text
   manfaat            String   @db.Text
   
+  fotoCover          String   @map("cover_url")
   dokumentasiFoto    String[] @map("dokumentasi_foto")
   dokumentasiVideo   String?  @map("dokumentasi_video")
-  fileDigital        String?  @map("file_digital")
+  fileDigital        String?  @map("file_url") // <-- DIPERBAIKI (sebelumnya file_digital)
   
   createdAt          DateTime @default(now()) @map("created_at")
   updatedAt          DateTime @updatedAt @map("updated_at")
@@ -34,16 +34,16 @@ model ProgramKerja {
 
 model Umkm {
   id            String   @id @default(cuid())
-  logo          String
-  namaUmkm      String
+  logo          String?
+  namaUmkm      String   @map("nama_umkm")
   deskripsi     String   @db.Text
   produk        String   @db.Text
   alamat        String
-  lokasiMap     String
-  nomorWhatsApp String
+  lokasiMap     String?  @map("lokasi_map")
+  nomorWhatsApp String   @map("nomor_whatsapp")
   
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   @@map("umkm")
 }
@@ -51,25 +51,26 @@ model Umkm {
 model PotensiDesa {
   id          String   @id @default(cuid())
   kategori    String   
-  namaPotensi String
+  namaPotensi String   @map("nama_potensi")
   deskripsi   String   @db.Text
-  fotoCover   String
+  fotoCover   String   @map("cover_url")
   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("potensidesa")
 }
 
 model Galeri {
-  id        String   @id @default(cuid())
-  tipe      String   // "Foto" | "Video"
-  url       String
-  judul     String?
-  kategori  String?  @db.Text 
+  id          String   @id @default(cuid())
+  tipe        String   // "Foto" | "Video"
+  url         String?
+  judul       String?
+  kategori    String?  
+  description String?  @db.Text // <-- DITAMBAHKAN
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("galeri")
 }
@@ -79,12 +80,12 @@ model Artikel {
   judul     String
   slug      String   @unique
   konten    String   @db.Text
-  fotoCover String
+  fotoCover String   @map("cover_url")
   penulis   String
   tanggal   DateTime @default(now())
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("artikel")
 }
@@ -93,10 +94,10 @@ model DownloadCenter {
   id        String   @id @default(cuid())
   judul     String
   kategori  String   
-  fileUrl   String
+  fileUrl   String   @map("file_url")
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("downloadcenter")
 }
@@ -104,12 +105,12 @@ model DownloadCenter {
 model Kontak {
   id            String   @id @default(cuid())
   alamat        String
-  googleMaps    String
+  googleMaps    String   @map("google_maps")
   email         String
-  nomorWhatsApp String
+  nomorWhatsApp String   @map("nomor_whatsapp")
   
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   @@map("kontak")
 }
@@ -121,8 +122,8 @@ model Admin {
   nama      String
   role      String   @default("ADMIN")
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("admin")
 }
