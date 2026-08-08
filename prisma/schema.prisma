@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model ProgramKerja {
@@ -37,7 +38,7 @@ model Umkm {
   produk         String   @db.Text
   alamat         String
   lokasiMap      String
-  nomorWhatsApp  String
+  nomorWhatsApp String
   
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
