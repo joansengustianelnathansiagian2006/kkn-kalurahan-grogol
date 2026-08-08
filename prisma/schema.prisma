@@ -10,24 +10,24 @@ datasource db {
 
 model ProgramKerja {
   id                 String   @id @default(cuid())
-  fotoCover          String
-  namaProgram        String
+  fotoCover          String   @map("cover_url")
+  namaProgram        String   @map("nama_program")
   kategori           String
-  tanggalPelaksanaan DateTime
+  tanggalPelaksanaan DateTime @map("tanggal_pelaksanaan")
   lokasi             String
 
-  latarBelakang      String   @db.Text
+  latarBelakang      String   @db.Text @map("latar_belakang")
   tujuan             String   @db.Text
   pelaksanaan        String   @db.Text
   hasil              String   @db.Text
   manfaat            String   @db.Text
   
-  dokumentasiFoto    String[] 
-  dokumentasiVideo   String?
-  fileDigital        String?
+  dokumentasiFoto    String[] @map("dokumentasi_foto")
+  dokumentasiVideo   String?  @map("dokumentasi_video")
+  fileDigital        String?  @map("file_digital")
   
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
 
   @@map("proker")
 }
@@ -66,7 +66,7 @@ model Galeri {
   tipe      String   // "Foto" | "Video"
   url       String
   judul     String?
-  kategori  String?  
+  kategori  String?  @db.Text 
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
