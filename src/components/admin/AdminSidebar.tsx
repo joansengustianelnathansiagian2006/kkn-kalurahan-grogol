@@ -22,7 +22,7 @@ export default function AdminSidebar() {
 
   const handleLogout = async () => {
     await signOut({
-      callbackUrl: '/admin/login',
+      callbackUrl: `${window.location.origin}/admin/login`,
     });
   };
 
