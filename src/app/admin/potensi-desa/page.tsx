@@ -84,14 +84,14 @@ export default function AdminPotensiDesaPage() {
 
     let finalImageUrl = formData.image;
 
-    // Jika pengguna memilih file baru dari perangkat, unggah ke Supabase Storage
+    // Unggah ke Supabase Storage (Bucket: potensi-desa)
     if (selectedFile) {
       const fileExt = selectedFile.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
       const filePath = `potensi/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('potensi')
+        .from('potensi-desa') // <-- DIUBAH DARI 'potensi' MENJADI 'potensi-desa'
         .upload(filePath, selectedFile);
 
       if (uploadError) {
@@ -101,7 +101,7 @@ export default function AdminPotensiDesaPage() {
       }
 
       const { data: urlData } = supabase.storage
-        .from('potensi')
+        .from('potensi-desa') // <-- DIUBAH DARI 'potensi' MENJADI 'potensi-desa'
         .getPublicUrl(filePath);
 
       finalImageUrl = urlData.publicUrl;
