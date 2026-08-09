@@ -9,126 +9,380 @@ datasource db {
 }
 
 model ProgramKerja {
-  id                 String    @id @default(cuid())
+  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   nama               String?   @map("nama")
   namaProgram        String?   @map("nama_program")
   slug               String?   @map("slug")
   kategori           String?   @map("kategori")
-  tanggal            DateTime? @map("tanggal")
-  tanggalPelaksanaan DateTime? @map("tanggal_pelaksanaan")
+  tanggal            String?   @map("tanggal")
+  tanggalPelaksanaan DateTime? @map("tanggal_pelaksanaan") @db.Timestamptz(6)
   lokasi             String?   @map("lokasi")
-
-  latarBelakang      String?   @db.Text @map("latar_belakang")
-  tujuan             String?   @db.Text @map("tujuan")
-  pelaksanaan        String?   @db.Text @map("pelaksanaan")
-  hasil              String?   @db.Text @map("hasil")
-  manfaat            String?   @db.Text @map("manfaat")
-
   fotoCover          String?   @map("cover_url")
-  dokumentasiFoto    String[]  @default([]) @map("dokumentasi_foto")
+  latarBelakang      String?   @map("latar_belakang")
+  tujuan             String?   @map("tujuan")
+  pelaksanaan        String?   @map("pelaksanaan")
+  hasil              String?   @map("hasil")
+  manfaat            String?   @map("manfaat")
+  dokumentasiFoto    String[]  @map("dokumentasi_foto")
   dokumentasiVideo   String?   @map("dokumentasi_video")
   fileDigital        String?   @map("file_url")
-
-  createdAt          DateTime  @default(now()) @map("created_at")
-  updatedAt          DateTime  @updatedAt @map("updated_at")
+  createdAt          DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   @@map("proker")
 }
 
 model Umkm {
-  id            String   @id @default(cuid())
-  logo          String?  @map("logo")
-  nama          String?  @map("nama")
-  namaUmkm      String?  @map("nama_umkm")
-  deskripsi     String?  @db.Text @map("deskripsi")
-  produk        String?  @db.Text @map("produk")
-  alamat        String?  @map("alamat")
-  lokasiMap     String?  @map("lokasi_map")
-  nomorWhatsApp String?  @map("nomor_whatsapp")
-
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  logo             String?   @map("logo")
+  nama             String?   @map("nama")
+  namaUmkm         String?   @map("nama_umkm")
+  deskripsi        String?   @map("deskripsi")
+  produk           String?   @map("produk")
+  alamat           String?   @map("alamat")
+  lokasiMap        String?   @map("lokasi_map")
+  nomorWhatsApp    String?   @map("nomor_whatsapp")
+  createdAt        DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  logo_url         String?
+  maps_url         String?
+  no_hp            String?
+  slug             String?
+  foto_url         String?
+  cover_url        String?
+  gambar_url       String?
+  description      String?
+  google_maps      String?
+  whatsapp         String?
+  pemilik          String?
+  kategori         String?
+  dusun            String?
+  padukuhan        String?
+  kategori_usaha   String?
+  foto             String?
+  foto_produk      String?
+  url_foto         String?
+  deskripsi_produk String?
 
   @@map("umkm")
 }
 
 model PotensiDesa {
-  id          String   @id @default(cuid())
-  kategori    String?  @map("kategori")
-  nama        String?  @map("nama")
-  namaPotensi String?  @map("nama_potensi")
-  deskripsi   String?  @db.Text @map("deskripsi")
-  fotoCover   String?  @map("cover_url")
-
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  kategori    String?   @map("kategori")
+  nama        String?   @map("nama")
+  namaPotensi String?   @map("nama_potensi")
+  deskripsi   String?   @map("deskripsi")
+  fotoCover   String?   @map("cover_url")
+  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  foto_url    String?
+  gambar_url  String?
 
   @@map("potensidesa")
 }
 
 model Galeri {
-  id          String   @id @default(cuid())
-  tipe        String?  @map("tipe")
-  url         String?  @map("url")
-  judul       String?  @map("judul")
-  kategori    String?  @map("kategori")
-  description String?  @db.Text @map("description")
-
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tipe         String?   @map("tipe")
+  url          String?   @map("url")
+  judul        String?   @map("judul")
+  kategori     String?   @map("kategori")
+  description  String?   @map("description")
+  createdAt    DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  foto_url     String?
+  video_url    String?
+  deskripsi    String?
+  image        String?
+  title        String?
+  category     String?
+  media_url    String?
+  url_media    String?
+  youtube_url  String?
+  link_youtube String?
+  keterangan   String?
+  type         String?
 
   @@map("galeri")
 }
 
 model Artikel {
-  id        String   @id @default(cuid())
-  judul     String?  @map("judul")
-  slug      String?  @unique @map("slug")
-  konten    String?  @db.Text @map("konten")
-  fotoCover String?  @map("cover_url")
-  penulis   String?  @map("penulis")
-  tanggal   DateTime @default(now()) @map("tanggal")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  judul      String?   @map("judul")
+  slug       String?   @unique @map("slug")
+  konten     String?   @map("konten")
+  fotoCover  String?   @map("cover_url")
+  penulis    String?   @map("penulis")
+  tanggal    DateTime? @default(now()) @map("tanggal") @db.Timestamptz(6)
+  createdAt  DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  kategori   String?
+  isi        String?
+  foto_url   String?
+  gambar_url String?
 
   @@map("artikel")
 }
 
 model DownloadCenter {
-  id        String   @id @default(cuid())
-  judul     String?  @map("judul")
-  kategori  String?  @map("kategori")
-  fileUrl   String?  @map("file_url")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  judul     String?   @map("judul")
+  kategori  String?   @map("kategori")
+  fileUrl   String?   @map("file_url")
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  nama      String?
+  url       String?
+  title     String?
+  category  String?
+  file      String?
 
   @@map("downloadcenter")
 }
 
 model Kontak {
-  id            String   @id @default(cuid())
-  alamat        String?  @map("alamat")
-  googleMaps    String?  @map("google_maps")
-  email         String?  @map("email")
-  nomorWhatsApp String?  @map("nomor_whatsapp")
-
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  alamat          String?   @map("alamat")
+  googleMaps      String?   @map("google_maps")
+  email           String?   @map("email")
+  nomorWhatsApp   String?   @map("nomor_whatsapp")
+  createdAt       DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  maps_url        String?
+  no_hp           String?
+  whatsapp        String?
+  telepon         String?
+  phone           String?   @db.VarChar(50)
+  jam_operasional String?   @db.VarChar(200)
+  maps_embed_url  String?
+  instagram       String?   @db.VarChar(255)
+  facebook        String?   @db.VarChar(255)
+  youtube         String?   @db.VarChar(255)
 
   @@map("kontak")
 }
 
 model Admin {
-  id        String   @id @default(cuid())
-  username  String   @unique @map("username")
-  password  String   @map("password")
-  nama      String?  @map("nama")
-  role      String   @default("ADMIN") @map("role")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id        String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  username  String    @unique @map("username")
+  password  String    @map("password")
+  nama      String?   @map("nama")
+  role      String?   @default("ADMIN") @map("role")
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   @@map("admin")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model download_center {
+  id         String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  judul      String?
+  title      String?
+  kategori   String?
+  category   String?
+  file_url   String?
+  url        String?
+  file       String?
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model downloads {
+  id             String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime? @default(now()) @db.Timestamptz(6)
+  judul          String?
+  title          String?
+  kategori       String?
+  category       String?
+  deskripsi      String?
+  description    String?
+  file_url       String?
+  url            String?
+  file           String?
+  file_size      String?
+  download_count Int?      @default(0)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model kontak_settings {
+  id                 Int       @id @default(1)
+  alamat             String?
+  phone              String?   @db.VarChar(50)
+  telepon            String?   @db.VarChar(50)
+  no_hp              String?   @db.VarChar(50)
+  whatsapp           String?   @db.VarChar(50)
+  nomor_whatsapp     String?   @db.VarChar(50)
+  email              String?   @db.VarChar(100)
+  jam_operasional    String?   @db.VarChar(200)
+  operational_hours  String?   @db.VarChar(200)
+  maps_embed_url     String?
+  maps_direction_url String?
+  maps_url           String?
+  google_maps        String?
+  instagram          String?   @db.VarChar(255)
+  facebook           String?   @db.VarChar(255)
+  youtube            String?   @db.VarChar(255)
+  tiktok             String?   @db.VarChar(255)
+  created_at         DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pengaturan {
+  id              Int     @id @default(1)
+  alamat          String?
+  phone           String? @db.VarChar(50)
+  email           String? @db.VarChar(100)
+  jam_operasional String? @db.VarChar(200)
+  maps_embed_url  String?
+  instagram       String? @db.VarChar(255)
+  facebook        String? @db.VarChar(255)
+  youtube         String? @db.VarChar(255)
+}
+
+model potensi_desa {
+  id           String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  slug         String?
+  title        String?
+  category     String?
+  description  String?
+  image        String?
+  nama         String?
+  nama_potensi String?
+  judul        String?
+  kategori     String?
+  deskripsi    String?
+  cover_url    String?
+  foto_url     String?
+  gambar_url   String?
+  url_gambar   String?
+  lokasi       String?
+  kontak       String?
+  hp           String?
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model ProfilDesa {
+  id                        Int       @id @default(1)
+  sejarah                   String?
+  visi                      String?
+  misi                      String?
+  luas_wilayah              String?
+  batas_utara               String?
+  batas_selatan             String?
+  batas_barat               String?
+  batas_timur               String?
+  total_penduduk            String?
+  jumlah_kk                 String?
+  pria                      String?
+  wanita                    String?
+  peta_embed_url            String?
+  struktur_pemerintahan_url String?
+  padukuhan_list            String?
+  fasilitas_umum            String?
+  foto_struktur             String?
+  logo                      String?
+  sambutan_lurah            String?
+  nama_lurah                String?
+  foto_lurah                String?
+  created_at                DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at                DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@map("profil_desa")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model team_members {
+  id            String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime? @default(now()) @db.Timestamptz(6)
+  nama          String?
+  name          String?
+  full_name     String?
+  jabatan       String?
+  role          String?
+  position      String?
+  prodi         String?
+  jurusan       String?
+  major         String?
+  univ          String?
+  universitas   String?
+  university    String?
+  foto_url      String?
+  photo_url     String?
+  image         String?
+  foto          String?
+  instagram     String?
+  linkedin      String?
+  cluster       String?
+  kluster       String?
+  nim           String?
+  fakultas      String?
+  faculty       String?
+  is_pimpinan   Boolean?  @default(false)
+  is_leader     Boolean?  @default(false)
+  pimpinan      Boolean?  @default(false)
+  is_top        Boolean?  @default(false)
+  department    String?
+  study_program String?
+  program_studi String?
+  image_url     String?
+  avatar_url    String?
+  is_leadership Boolean?  @default(false)
+  leadership    Boolean?  @default(false)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model tim_kkn {
+  id            String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  nama          String?
+  jabatan       String?
+  prodi         String?
+  univ          String?
+  universitas   String?
+  foto_url      String?
+  cover_url     String?
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime? @default(now()) @db.Timestamptz(6)
+  role          String?
+  jurusan       String?
+  image         String?
+  foto          String?
+  name          String?
+  photo_url     String?
+  cluster       String?
+  kluster       String?
+  nim           String?
+  fakultas      String?
+  faculty       String?
+  is_pimpinan   Boolean?  @default(false)
+  is_leader     Boolean?  @default(false)
+  pimpinan      Boolean?  @default(false)
+  is_top        Boolean?  @default(false)
+  department    String?
+  study_program String?
+  program_studi String?
+  image_url     String?
+  avatar_url    String?
+  is_leadership Boolean?  @default(false)
+  leadership    Boolean?  @default(false)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model timkkn {
+  id          String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  nama        String?
+  jabatan     String?
+  role        String?
+  prodi       String?
+  jurusan     String?
+  univ        String?
+  universitas String?
+  foto_url    String?
+  image       String?
+  foto        String?
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
 }

@@ -10,7 +10,7 @@ export default function SecretLoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Ganti 'admin123' dengan password rahasia pilihan Anda
+    // Ganti 'admin123' dengan password rahasia
     if (password === 'admin123') {
       document.cookie = 'admin_token=active; path=/; max-age=86400'; // Cookie berlaku 1 hari
       router.push('/admin');

@@ -3,9 +3,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 
+// Deklarasi modul
 declare module "next-auth" {
   interface User {
-    role?: string;
+    role?: string | null;
   }
   interface Session {
     user: {
@@ -13,14 +14,14 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
-      role?: string;
+      role?: string | null;
     };
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    role?: string;
+    role?: string | null;
   }
 }
 
@@ -76,7 +77,7 @@ export const authOptions: NextAuthOptions = {
           return {
             id: admin.id,
             name: admin.nama || admin.username,
-            role: admin.role,
+            role: admin.role ?? "admin",
           };
         } catch (error) {
           console.error("LOGIN ERROR (DATABASE / PRISMA):", error);
@@ -94,7 +95,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role as string;
+        session.user.role = token.role;
       }
       return session;
     },
